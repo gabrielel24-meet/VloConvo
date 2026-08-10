@@ -12,3 +12,7 @@ class UserBase(BaseModel):
     bio: str
     # created_at: datetime.datetime
     # last_seen: datetime.datetime
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str

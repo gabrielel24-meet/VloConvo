@@ -8,5 +8,5 @@ engine = create_engine(url, echo=False)
 
 session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-base = declarative_base()
+Base = declarative_base()
 
