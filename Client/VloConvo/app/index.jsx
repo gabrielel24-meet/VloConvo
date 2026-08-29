@@ -8,7 +8,7 @@ const index = () => {
       <Text>hellloooo</Text>
 
       <Link href="/login">Login</Link>
-      
+      <Link href="/register">Register</Link>
     </View>
 
   )

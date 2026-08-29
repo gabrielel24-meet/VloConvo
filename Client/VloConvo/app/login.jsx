@@ -18,6 +18,7 @@ import { Link, router } from "expo-router";
 import { Svg, Defs, LinearGradient, Stop, Polygon, Circle, Path } from "react-native-svg";
 import { LinearGradient as ExpoGradient } from "expo-linear-gradient";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-react-native";
+import api from "../api"; // Import the API instance
 
 /* ─────────────────────────  Palette  ───────────────────────── */
 const C = {
@@ -191,8 +192,39 @@ export default function LoginScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      Alert.alert("Signed in", "This is a mocked sign-in for UI testing.");
+    //   Alert.alert("Signed in", "This is a mocked sign-in for UI testing.");
+        regularLogin(email, password); // Call the regular login function
     }, 1200);
+  };
+
+const regularLogin = async (email, password) => {
+  try {
+    const formData = new URLSearchParams();
+
+    formData.append("username", email);
+    formData.append("password", password);
+
+    const response = await api.post(
+      "/auth/token",
+      formData.toString(),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    console.log("Login response:", response.data);
+
+    Alert.alert(
+      "Login successful",
+      "You have been logged in successfully."
+    );
+
+    } catch (error) {
+        console.log("Login error:", error.response?.data || error.message);
+        setError("Invalid email or password.");
+    }
   };
 
   const handleGoogle = () => Alert.alert("Google", "Google sign-in is a placeholder for now.");
@@ -340,7 +372,7 @@ export default function LoginScreen() {
             {/* Footer */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>New to VloConvo? </Text>
-              <Link href="/index" style={styles.footerLink}>
+              <Link href="/register" style={styles.footerLink}>
                 Create an account
               </Link>
             </View>
