@@ -18,7 +18,7 @@ import { Link, router } from "expo-router";
 import { Svg, Defs, LinearGradient, Stop, Polygon, Circle, Path } from "react-native-svg";
 import { LinearGradient as ExpoGradient } from "expo-linear-gradient";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-react-native";
-import api from "../api"; // Import the API instance
+import api from "../api"; 
 
 /* ─────────────────────────  Palette  ───────────────────────── */
 const C = {

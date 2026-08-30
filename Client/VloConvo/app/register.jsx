@@ -18,6 +18,8 @@ import { Link } from "expo-router";
 import { Svg, Defs, LinearGradient, Stop, Polygon, Circle, Path } from "react-native-svg";
 import { LinearGradient as ExpoGradient } from "expo-linear-gradient";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, User, AlertCircle } from "lucide-react-native";
+import { router } from 'expo-router';
+import api from "../api"; 
 
 /* ─────────────────────────  Palette  ───────────────────────── */
 const C = {
@@ -204,9 +206,41 @@ export default function RegisterScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      Alert.alert("Account created", "This is a mocked sign-up for UI testing.");
+      regularRegister(username, displayName, email, password);
     }, 1200);
   };
+
+  const regularRegister = async (username, display_name, email, password) => {
+    try {
+      const response = await api.post("/users", {
+        username: username,
+        display_name: display_name,
+        email: email,
+        password_hash: password,
+      });
+
+      console.log("Register response:", response.data);
+
+      Alert.alert(
+        "Registration successful",
+        "You have been registered successfully."
+      );
+
+      router.replace("/login");
+
+    } catch (error) {
+      console.log(
+        "Register error:",
+        error.response?.data || error.message
+      );
+
+      setError(
+        error.response?.data?.detail ||
+        "Registration failed."
+      );
+    }
+  };
+
 
   const handleGoogle = () => Alert.alert("Google", "Google sign-up is a placeholder for now.");
 
