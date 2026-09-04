@@ -21,9 +21,6 @@ origins = ["http://localhost:3000"]
 
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
-models.Base.metadata.create_all(bind=engine)
-
-
 # ------------------- Routes -------------------
 
 # GET
