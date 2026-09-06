@@ -18,6 +18,7 @@ import { Link, router } from "expo-router";
 import { Svg, Defs, LinearGradient, Stop, Polygon, Circle, Path } from "react-native-svg";
 import { LinearGradient as ExpoGradient } from "expo-linear-gradient";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import api from "../api"; 
 
 /* ─────────────────────────  Palette  ───────────────────────── */
@@ -192,8 +193,7 @@ export default function LoginScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    //   Alert.alert("Signed in", "This is a mocked sign-in for UI testing.");
-        regularLogin(email, password); // Call the regular login function
+        regularLogin(email, password);
     }, 1200);
   };
 
@@ -215,11 +215,8 @@ const regularLogin = async (email, password) => {
     );
 
     console.log("Login response:", response.data);
+    router.replace('/servers'); 
 
-    Alert.alert(
-      "Login successful",
-      "You have been logged in successfully."
-    );
 
     } catch (error) {
         console.log("Login error:", error.response?.data || error.message);
@@ -251,6 +248,19 @@ const regularLogin = async (email, password) => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
+          <Pressable
+            onPress={() => router.push("/")}
+            hitSlop={8}
+            accessibilityLabel="Back to home"
+            accessibilityRole="button"
+            style={({ pressed }) => [
+              styles.backButton,
+              pressed && { backgroundColor: "#FBF6EF" },
+            ]}
+          >
+            <ArrowLeft size={20} color={C.inkSoft} />
+          </Pressable>
+
           <Animated.View style={[styles.formWrap, entrance]}>
             {/* Brand */}
             <View style={styles.brandWrap}>
@@ -590,5 +600,17 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: C.accentDeep,
     fontFamily: "Inter-SemiBold",
+  },
+  backButton: {
+    alignSelf: "flex-start",
+    width: 42,
+    height: 42,
+    marginBottom: 20,
+    borderRadius: 13,
+    borderWidth: 1,
+    borderColor: C.border,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

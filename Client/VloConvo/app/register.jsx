@@ -20,6 +20,10 @@ import { LinearGradient as ExpoGradient } from "expo-linear-gradient";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, User, AlertCircle } from "lucide-react-native";
 import { router } from 'expo-router';
 import api from "../api"; 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ArrowLeft } from "lucide-react-native";
+
+
 
 /* ─────────────────────────  Palette  ───────────────────────── */
 const C = {
@@ -243,6 +247,7 @@ export default function RegisterScreen() {
 
 
   const handleGoogle = () => Alert.alert("Google", "Google sign-up is a placeholder for now.");
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.screen}>
@@ -258,7 +263,24 @@ export default function RegisterScreen() {
       </Animated.View>
 
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.scroll}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <Pressable
+            onPress={() => router.push("/")}
+            hitSlop={8}
+            accessibilityLabel="Back to home"
+            accessibilityRole="button"
+            style={({ pressed }) => [
+              styles.backButton,
+              pressed && { backgroundColor: "#FBF6EF" },
+            ]}
+          >
+            <ArrowLeft size={20} color={C.inkSoft} />
+          </Pressable>
+
           <Animated.View style={[styles.formWrap, entrance]}>
             {/* Brand */}
             <View style={styles.brandWrap}>
@@ -426,4 +448,6 @@ const styles = StyleSheet.create({
   footer: { flexDirection: "row", justifyContent: "center", marginTop: 24, marginBottom: 8 },
   footerText: { fontSize: 14, color: C.muted, fontFamily: "Inter-Regular" },
   footerLink: { fontSize: 14, fontWeight: "600", color: C.accentDeep, fontFamily: "Inter-SemiBold" },
+  btn: { position: "absolute", left: 20, width: 42, height: 42, borderRadius: 13, borderWidth: 1, borderColor: C.border, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", zIndex: 10, elevation: 2, shadowColor: "#2B2419", shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 }, shadowRadius: 6, },
+  backButton: { alignSelf: "flex-start", width: 42, height: 42, marginBottom: 20, borderRadius: 13, borderWidth: 1, borderColor: C.border, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", },
 });
